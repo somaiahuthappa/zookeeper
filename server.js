@@ -3,10 +3,30 @@ const path = require('path');
 const express = require('express');
 const PORT = process.env.PORT || 3001;
 const app = express();
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+app.get('/animals', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+app.get('/zookeepers', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+  });
+// wildcard route. any route that wasn't previously defined 
+// will fall under this request and will receive the homepage as the response
+// must come last
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, './public/index.html'));
+//   });
+
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
 });
 
+// instruct the server to make these files static resources
+app.use(express.static('public'));
 // parse incoming string or array data
 app.use(express.urlencoded({extended: true}));
 // parse incoming JSON data
